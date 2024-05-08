@@ -5,12 +5,12 @@ services:
     volumes:
       - ./ispmanager-app:/var/www/html
     ports:
-      - 9000:80
+      - 80:80
 
   mysql_db:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: 1$WPi%8ak?
+      MYSQL_ROOT_PASSWORD: P46e6qR4H8bHo5tk
       MYSQL_DATABASE: dk_imdb
     ports:
       - 3306:3306

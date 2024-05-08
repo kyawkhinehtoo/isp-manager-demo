@@ -17,3 +17,5 @@ data:
 	docker exec ispmanager-docker bash -c "php artisan db:seed --class=TownshipSeeder"
 	docker exec ispmanager-docker bash -c "php artisan db:seed --class=CustomerStatusSeeder"
 	docker exec ispmanager-docker bash -c "php artisan db:seed --class=CustomerSeeder"
+	docker exec ispmanager-docker bash -c "php artisan storage:link"
+	docker exec ispmanager-docker bash -c "php artisan key:generate"
