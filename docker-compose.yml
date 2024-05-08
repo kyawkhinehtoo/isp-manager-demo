@@ -1,0 +1,23 @@
+services:
+  laravel-docker:
+    container_name: ispmanager-docker
+    build: .
+    volumes:
+      - ./ispmanager-app:/var/www/html
+    ports:
+      - 9000:80
+
+  mysql_db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 1$WPi%8ak?
+      MYSQL_DATABASE: dk_imdb
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - 9001:80
+    environment:
+      - PMA_ARBITRARY=1
