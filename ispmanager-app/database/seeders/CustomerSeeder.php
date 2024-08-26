@@ -16,7 +16,7 @@ class CustomerSeeder extends Seeder
     public function run()
     {
         //
-      
+
         $faker = Faker::create();
         foreach (range(1, 50) as $index) {
             $latitude = $faker->latitude(16.7, 17.2); // Adjust the range according to Yangon's latitude
@@ -36,7 +36,7 @@ class CustomerSeeder extends Seeder
                 'sale_channel' => $faker->randomElement(['Online', 'In-store', 'Agent']),
                 'sale_remark' => $faker->sentence,
                 'township_id' => $faker->numberBetween(1, 33), // Assuming 33 townships as per previous conversation
-                'package_id' => $faker->numberBetween(1, 10), // Adjust according to your package IDs
+                'package_id' => 1, // Adjust according to your package IDs
                 'sale_person_id' => 2, // Adjust according to your sale person IDs
                 'status_id' => $faker->numberBetween(1, 5), // Adjust according to your status IDs
                 'subcom_id' => 1, // Adjust according to your subcom IDs

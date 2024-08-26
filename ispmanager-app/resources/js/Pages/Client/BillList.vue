@@ -21,7 +21,8 @@
           <i class="ml-1 fa fa-search text-white" tabindex="2"></i></a>
       </div>
 
-      <div class="max-w-full mx-auto sm:px-6 lg:px-8 mt-4 flex justify-between" v-if="form.bill_id && form.bill_id != 0">
+      <div class="max-w-full mx-auto sm:px-6 lg:px-8 mt-4 flex justify-between"
+        v-if="form.bill_id && form.bill_id != 0">
         <div class="flex">
           <a href="#" class="w-full text-right font-semibold text-xs underline mr-2" v-on:click="toggleAdv">Advance
             Search</a>
@@ -42,8 +43,8 @@
       <div v-if="form.bill_id && form.bill_id != 0" v-show="show_command"
         class="max-w-full mx-auto sm:px-6 lg:px-8 mt-4 ">
         <div class="flex gap-2 bg-white shadow sm:rounded-lg space-x-2 items-center py-2 px-2 md:px-2"
-          :class="[smsgateway.status == '1' ? 'justify-between' : 'justify-end']">
-          <div class="flex gap-2" v-if="smsgateway.status == '1'">
+          :class="[smsgateway?.status == '1' ? 'justify-between' : 'justify-end']">
+          <div class="flex gap-2" v-if="smsgateway?.status == '1'">
             <a @click="sendAllSMS"
               class="cursor-pointer inline-flex items-center px-2 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-300 disabled:opacity-25 transition">Broadcast
               Invoice <i class="ml-1 fa fa-sms text-white"></i></a>
@@ -75,12 +76,12 @@
           <div class="flex pt-1 w-full">
             <div class="relative w-full">
               <label class="text-xs">{{ paid_percent }}% Percentage of {{ (paid) ? new Intl.NumberFormat('en-US', {
-                maximumSignificantDigits: 8
-              }).format(paid) : 0
-              }} BAHT in {{ new Intl.NumberFormat('en-US', {
-  maximumSignificantDigits: 8
-}).format(receivable)
-}} BAHT</label>
+        maximumSignificantDigits: 8
+      }).format(paid) : 0
+                }} BAHT in {{ new Intl.NumberFormat('en-US', {
+        maximumSignificantDigits: 8
+      }).format(receivable)
+                }} BAHT</label>
               <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200 z-10">
                 <div :style="`width: ${paid_percent}%`"
                   class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500 z-10">
@@ -96,7 +97,8 @@
             <thead class="bg-gray-50">
               <tr>
                 <th scope="col"
-                  class="pl-3 px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No.</th>
+                  class="pl-3 px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  No.</th>
                 <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Bill No.</th>
                 <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -138,14 +140,15 @@
                 <td class="px-2 py-3 text-xs whitespace-nowrap">{{ row.bill_number }}</td>
                 <td class="px-2 py-3 text-xs whitespace-nowrap">{{ row.ftth_id }}</td>
                 <td class="px-2 py-3 text-xs whitespace-nowrap">{{ (row.service_description !== row.qty) ?
-                  row.service_description + `(${row.qty})` : row.service_description }}</td>
+        row.service_description + `(${row.qty})` : row.service_description }}</td>
                 <td class="px-2 py-3 text-xs whitespace-nowrap">{{ row.usage_days }}</td>
                 <td class="px-2 py-3 text-xs whitespace-nowrap">{{ row.total_payable }}</td>
                 <td class="px-2 py-3 text-xs whitespace-nowrap">
                   <span v-if="row.total_payable > 0">
                     <span v-if="row.invoice_file"><a :href="'/s/' + row.invoice_url">Download</a></span><span
                       v-else><button type="button" @click="generatePDF(row.id)"
-                        class="h-8 text-md w-24 bg-blue-600 rounded text-white hover:bg-blue-700">Make PDF</button></span>
+                        class="h-8 text-md w-24 bg-blue-600 rounded text-white hover:bg-blue-700">Make
+                        PDF</button></span>
                   </span>
                 </td>
 
@@ -153,7 +156,7 @@
                 <td class="px-2 py-3 text-xs whitespace-nowrap">
                   <span v-if="row.total_payable > 0">
                     <span v-if="row.sms_sent_status">{{ row.sent_date }}</span><span v-else>
-                      <span v-if="smsgateway.status == '1' && row.invoice_file">
+                      <span v-if="smsgateway?.status == '1' && row.invoice_file">
                         <button type="button" @click="sendSMS(row.id)"
                           class="h-8 text-md w-20 bg-red-600 rounded text-white hover:bg-red-700">Send</button>
                       </span>
@@ -174,13 +177,14 @@
                     Receipt</button>
                 </td>
                 <td class="px-2 py-3 text-xs whitespace-nowrap capitalize">{{
-                  (row.receipt_status) ? row.receipt_status.replace('_', ' ') : ''
-                }}</td>
+        (row.receipt_status) ? row.receipt_status.replace('_', ' ') : ''
+      }}</td>
                 <td class="px-2 py-3 text-xs whitespace-nowrap">
                   <span v-if="row.receipt_status">
                     <span v-if="row.receipt_file"><a :href="'/s/' + row.receipt_url">Download</a></span><span
                       v-else><button type="button" @click="generateReceiptPDF(row.receipt_id)"
-                        class="h-8 text-md w-24 bg-blue-600 rounded text-white hover:bg-blue-700">Make PDF</button></span>
+                        class="h-8 text-md w-24 bg-blue-600 rounded text-white hover:bg-blue-700">Make
+                        PDF</button></span>
                   </span>
                 </td>
                 <td class="px-6 py-3 text-xs whitespace-nowrap text-right font-medium" v-if="invoiceEdit">
@@ -230,15 +234,15 @@
           <form @submit.prevent="submit">
             <div class="shadow overflow-hidden border-b border-gray-200 p-4">
               <p v-show="$page.props.errors.receipt_date" class="mt-2 text-sm text-red-500 block">{{
-                $page.props.errors.receipt_date
-              }}</p>
+        $page.props.errors.receipt_date
+      }}</p>
               <p v-show="$page.props.errors.collected_amount" class="mt-2 text-sm text-red-500 block">{{
-                $page.props.errors.collected_amount
-              }}</p>
+        $page.props.errors.collected_amount
+      }}</p>
               <div class="grid grid-cols-1 md:grid-cols-4 w-full">
 
                 <div class="col-span-2 sm:col-span-2 border-2 border-marga bg-marga">
-                  <h1 class="text-gray-600 text-lg font-semibold mt-1 px-2">CASH RECEIPT</h1>
+                  <h1 class="text-gray-200 text-lg font-semibold mt-1 px-2">CASH RECEIPT</h1>
                 </div>
                 <div class="col-span-2 sm:col-span-2 border-b-2 border-marga justify-end flex">
 
@@ -260,27 +264,27 @@
                 <div class="col-span-1 sm:col-span-1 flex flex-col justify-between">
                   <div class="border-2 border-marga p-2 text-center flex flex-col">
                     <span class="font-semibold text-md">Reference :</span> <span class="text-sm"> {{ receipt_number
-                    }}</span>
+                      }}</span>
                   </div>
                   <div class="border-2 border-marga p-2 text-center flex flex-col mt-2">
                     <span class="font-semibold text-md">Bill Number:</span> <span class="text-sm"> {{ form.bill_number
-                    }}</span>
+                      }}</span>
                   </div>
                   <div class="border-2 border-marga p-2 text-center flex flex-col mt-2">
                     <span class="font-semibold text-md">Customer ID:</span> <span class="text-sm"> {{ form.ftth_id
-                    }}</span>
+                      }}</span>
                   </div>
                 </div>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-4 gap-6 w-full">
                 <div class="py-4 col-span-1 sm:col-span-1 border-2 border-marga text-center flex flex-col">
                   <span class="font-semibold text-md">Amount (THB):</span> <span class="text-sm"> {{ form.total_payable
-                  }}</span>
+                    }}</span>
                 </div>
                 <div class="py-4 col-span-3 sm:col-span-3 border-2 border-marga text-center flex flex-col">
                   <span class="font-semibold text-md">Amount In Word:</span> <span class="text-sm"> {{
-                    form.amount_in_word
-                  }}</span>
+        form.amount_in_word
+      }}</span>
                 </div>
               </div>
 
@@ -289,8 +293,8 @@
                   <label class="block mt-2">Received Amount</label>
                 </div>
                 <div class="col-span-1 sm:col-span-1 border-b-2 border-marga"><input type="text"
-                    class="py-2 px-0 inline-flex sm:text-sm border-0 focus:ring-0 w-full" v-model="form.collected_amount"
-                    @change="calc" /></div>
+                    class="py-2 px-0 inline-flex sm:text-sm border-0 focus:ring-0 w-full"
+                    v-model="form.collected_amount" @change="calc" /></div>
 
                 <div class="col-span-1 sm:col-span-1">
                   <label class="block mt-2">Payment Channel</label>
@@ -304,8 +308,8 @@
                         class="form-radio h-5 w-5 text-blue-700" name="type" v-model="form.type" value="kbz_pay" /><span
                         class="ml-2 text-gray-700 text-xs font-semibold">KPay</span> </label>
                     <label class="flex-auto items-center mt-1"> <input type="radio"
-                        class="form-radio h-5 w-5 text-blue-700" name="type" v-model="form.type" value="quick_pay" /><span
-                        class="ml-2 text-gray-700 text-xs font-semibold">KBZ Quickpay</span>
+                        class="form-radio h-5 w-5 text-blue-700" name="type" v-model="form.type"
+                        value="quick_pay" /><span class="ml-2 text-gray-700 text-xs font-semibold">KBZ Quickpay</span>
                     </label>
                     <label class="flex-auto items-center mt-1"> <input type="radio"
                         class="form-radio h-5 w-5 text-red-600" name="type" v-model="form.type" value="aya_pay" /><span
@@ -348,7 +352,8 @@
                   <div class="flex">
                     <label class="flex-auto items-center mt-1"> <input type="radio"
                         class="form-radio h-5 w-5 text-red-600" name="currency" v-model="form.currency"
-                        value="mmk" /><span class="ml-2 text-gray-700">MMK</span> </label>
+                        value="mmk" /><span class="ml-2 text-gray-700">MMK</span>
+                    </label>
                     <label class="flex-auto items-center mt-1"> <input type="radio"
                         class="form-radio h-5 w-5 text-green-600" name="currency" v-model="form.currency"
                         value="baht" /><span class="ml-2 text-gray-700">Thai baht</span> </label>
@@ -360,7 +365,8 @@
                 </div>
                 <div class="col-span-3 sm:col-span-3 border-b-2 border-marga"><textarea
                     class="py-2 px-0 inline-flex sm:text-sm border-0 focus:ring-0 w-full"
-                    v-model="form.remark"></textarea></div>
+                    v-model="form.remark"></textarea>
+                </div>
               </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -391,7 +397,8 @@
           role="dialog" aria-modal="true" aria-labelledby="modal-headline">
 
           <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 shadow sm:rounded-lg">
-            <h6 class="md:min-w-full text-indigo-700 text-sm uppercase font-bold block pt-1 no-underline" v-if="editMode">
+            <h6 class="md:min-w-full text-indigo-700 text-sm uppercase font-bold block pt-1 no-underline"
+              v-if="editMode">
               Billing Detail Information</h6>
             <h6 class="md:min-w-full text-indigo-700 text-sm uppercase font-bold block pt-1 no-underline" v-else>Create
               Invoice</h6>
@@ -417,8 +424,8 @@
                   class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   id="customer_status" v-model="form_2.customer_status" />
                 <div v-if="$page.props.errors.customer_status" class="text-red-500">{{
-                  $page.props.errors.customer_status
-                }}</div>
+        $page.props.errors.customer_status
+      }}</div>
               </div>
               <div class="mb-4 md:col-span-1">
                 <label for="period_covered" class="block text-gray-700 text-sm font-bold mb-2">Period Covered :</label>
@@ -429,15 +436,15 @@
 
 
                 <div v-if="$page.props.errors.period_covered" class="text-red-500">{{ $page.props.errors.period_covered
-                }}</div>
+                  }}</div>
               </div>
               <div class="mb-4 md:col-span-1">
                 <label for="ftth_id" class="block text-gray-700 text-sm font-bold mb-2">Customer ID :</label>
                 <input type="text"
                   class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   id="ftth_id" placeholder="Enter Customer ID" v-model="form_2.ftth_id" disabled v-if="editMode" />
-                <multiselect deselect-label="Selected already" :options="prepaid_customers" track-by="id" label="ftth_id"
-                  v-model="form_2.ftth_id" :allow-empty="true" v-else @select="updateData" />
+                <multiselect deselect-label="Selected already" :options="prepaid_customers" track-by="id"
+                  label="ftth_id" v-model="form_2.ftth_id" :allow-empty="true" v-else @select="updateData" />
                 <div v-if="$page.props.errors.ftth_id" class="text-red-500">{{ $page.props.errors.ftth_id }}</div>
               </div>
             </div>
@@ -457,8 +464,8 @@
                   class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   id="payment_duedate" placeholder="Enter Payment Due Date" v-model="form_2.payment_duedate" />
                 <div v-if="$page.props.errors.payment_duedate" class="text-red-500">{{
-                  $page.props.errors.payment_duedate
-                }}</div>
+        $page.props.errors.payment_duedate
+      }}</div>
 
                 <!-- <label for="end_date" class="mt-4 block text-gray-700 text-sm font-bold mb-2">Last End Date
                   :</label>
@@ -583,8 +590,8 @@
                   id="previous_balance" placeholder="Enter Previous Balance" v-model="form_2.previous_balance"
                   @change="form2_calc" />
                 <div v-if="$page.props.errors.previous_balance" class="text-red-500">{{
-                  $page.props.errors.previous_balance
-                }}</div>
+        $page.props.errors.previous_balance
+      }}</div>
 
                 <label for="current_charge" class="mt-4 block text-gray-700 text-sm font-bold mb-2">Current Charge
                   :</label>
@@ -593,7 +600,7 @@
                   id="current_charge" placeholder="Enter Current Charge" v-model="form_2.current_charge"
                   @change="form2_calc" />
                 <div v-if="$page.props.errors.current_charge" class="text-red-500">{{ $page.props.errors.current_charge
-                }}</div>
+                  }}</div>
 
                 <label for="sub_total" class="mt-4 block text-gray-700 text-sm font-bold mb-2">Sub Total :</label>
                 <input type="number"
@@ -615,7 +622,8 @@
                 <label for="compensation" class="mt-4 block text-gray-700 text-sm font-bold mb-2">Compensation :</label>
                 <input type="number"
                   class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                  id="compensation" placeholder="Enter Compensation" v-model="form_2.compensation" @change="form2_calc" />
+                  id="compensation" placeholder="Enter Compensation" v-model="form_2.compensation"
+                  @change="form2_calc" />
                 <div v-if="$page.props.errors.compensation" class="text-red-500">{{ $page.props.errors.compensation }}
                 </div>
 
@@ -1560,7 +1568,7 @@ export default {
 }
 
 .bg-marga {
-  background: #fed406;
+  background: #1e3a8a;
   color: #ffffff;
 }
 
