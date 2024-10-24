@@ -31,7 +31,16 @@ class Package extends Model
      * @var array
      */
     protected $fillable = [
-        'name','speed','type','status','sla_id','price', 'contract_period', 'radius_package','pop_id','created_at', 'updated_at'
+        'name',
+        'speed',
+        'type',
+        'status',
+        'sla_id',
+        'price',
+        'contract_period',
+        'radius_package',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -39,9 +48,7 @@ class Package extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be casted to native types.
@@ -49,7 +56,12 @@ class Package extends Model
      * @var array
      */
     protected $casts = [
-        'name' => 'string','qty' => 'string','price'=>'string' ,'pop_id'=>'integer','created_at' => 'timestamp', 'updated_at' => 'timestamp'
+        'name' => 'string',
+        'qty' => 'string',
+        'price' => 'string',
+        'pop_id' => 'integer',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp'
     ];
 
     /**
@@ -58,7 +70,8 @@ class Package extends Model
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at',
+        'updated_at'
     ];
 
     /**

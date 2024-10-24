@@ -615,7 +615,23 @@ class BillingController extends Controller
             }
 
 
-            $invoice->update();
+            $original = $invoice->getOriginal();  // Get the original values before update
+            $invoice->update();                   // Perform the update
+            $changes = $invoice->getChanges();    // Get the updated values after the update
+
+            $logData = [];
+            foreach ($changes as $key => $newValue) {
+                $logData[$key] = [
+                    'from' => $original[$key] ?? null,  // Original value
+                    'to' => $newValue                   // New value
+                ];
+            }
+            $invoice_no = "INV" . substr($invoice->bill_number, 0, 4) . str_pad($invoice->invoice_number, 5, "0", STR_PAD_LEFT);
+            activity()
+                ->causedBy(User::find(Auth::id()))
+                ->performedOn($invoice)
+                ->withProperties(['changes' => $logData])  // Log the changes with from-to values
+                ->log('Invoice updated. Customer ID: ' . $invoice->ftth_id . ', Invoice No. : ' . $invoice_no);
             return redirect()->back()->with('message', 'Invoice Updated Successfully.');
         }
         return redirect()->back()->with('message', 'Invoice Cannot be Updated.');
@@ -823,6 +839,10 @@ class BillingController extends Controller
                     $billing->save();
                 }
             }
+            activity()
+                ->causedBy(User::find(Auth::id()))
+                ->performedOn($billing)
+                ->log('Bill Save Final. Bill No. :' .   $bill->name);
             return redirect()->back()->with('message', 'Billing Generated Successfully');
         }
     }
@@ -1100,16 +1120,24 @@ class BillingController extends Controller
         $name = date("ymdHis") . '-' . $invoice->bill_number . ".pdf";
         $path = $invoice->ftth_id . '/' . $name;
         $pdf = $this->createPDF($options, 'invoice', $invoice, $name, $path);
-
+        $invoice_no = "INV" . substr($invoice->bill_number, 0, 4) . str_pad($invoice->invoice_number, 5, "0", STR_PAD_LEFT);
         if ($pdf['status'] == 'success') {
 
             // Successfully stored. Return the full path.
             $invoice->invoice_file =  $pdf['disk_path'];
             $invoice->invoice_url = $pdf['shortURL'];
             $invoice->update();
+            activity()
+                ->causedBy(User::find(Auth::id()))
+                ->performedOn($invoice)
+                ->log('Create Single PDF for' . $invoice->ftth_id . ', Invoice ID : ' .  $invoice_no);
             return redirect()->back()->with('message', 'PDF Generated Successfully.');
         }
 
+        activity()
+            ->causedBy(User::find(Auth::id()))
+            ->performedOn($invoice)
+            ->log('Single PDF Creation Failed for ' . $invoice->ftth_id . ', Invoice ID : ' .  $invoice_no);
         // download PDF file with download method
         return redirect()->back()->with('message', 'PDF Generation Fails.');
     }

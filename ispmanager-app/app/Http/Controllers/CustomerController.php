@@ -114,6 +114,7 @@ class CustomerController extends Controller
             ->when($request->keyword, function ($query, $search = null) {
                 $query->where(function ($query) use ($search) {
                     $query->where('customers.name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('customers.email', 'LIKE', '%' . $search . '%')
                         ->orWhere('customers.ftth_id', 'LIKE', '%' . $search . '%')
                         ->orWhere('packages.name', 'LIKE', '%' . $search . '%')
                         ->orWhere('townships.name', 'LIKE', '%' . $search . '%');
@@ -122,6 +123,7 @@ class CustomerController extends Controller
                 $query->where(function ($query) use ($general) {
                     $query->where('customers.name', 'LIKE', '%' . $general . '%')
                         ->orWhere('customers.ftth_id', 'LIKE', '%' . $general . '%')
+                        ->orWhere('customers.email', 'LIKE', '%' . $general . '%')
                         ->orWhere('customers.phone_1', 'LIKE', '%' . $general . '%')
                         ->orWhere('customers.phone_2', 'LIKE', '%' . $general . '%');
                 });
@@ -136,8 +138,8 @@ class CustomerController extends Controller
 
                 $query->whereBetween('customers.prefer_install_date', [$prefer['from'], $prefer['to']]);
             })
-            ->when($request->dn, function ($query, $dn) {
-                $query->where('dn_ports.id', '=', $dn);
+            ->when($request->dn, function ($query, $dn_2) {
+                $query->where('dn_ports.id', '=', $dn_2);
             })
             ->when($request->sn, function ($query, $sn) {
                 $query->where('sn_ports.id', '=', $sn);
@@ -237,8 +239,6 @@ class CustomerController extends Controller
         $pops = Pop::get();
         $bundle_equiptments = BundleEquiptment::get();
         $dn = DB::table('dn_ports')
-            ->select(DB::raw('name, count(port) as ports'))
-            ->groupBy(['name'])
             ->get();
         $sale_persons = DB::table('users')
             ->join('roles', 'users.role', '=', 'roles.id')
@@ -361,9 +361,12 @@ class CustomerController extends Controller
                 if (!empty($request->sn_id))
                     $customer->$value = $request->sn_id['id'];
             }
+            if ($value == 'pop_id') {
+                if (!empty($request->pop_id))
+                    $customer->$value = $request->pop_id['id'];
+            }
             if ($value == 'bundle') {
                 if (!empty($request->bundles)) {
-
                     $customer->bundle = '';
                     foreach ($request->bundles as $key => $value) {
                         if ($key !== array_key_last($request->bundles))
@@ -375,6 +378,7 @@ class CustomerController extends Controller
             }
         }
         $customer->deleted = 0;
+
         $customer->save();
 
         $new_history = new CustomerHistory();
@@ -408,6 +412,18 @@ class CustomerController extends Controller
         if (RadiusController::checkRadiusEnable()) {
             RadiusController::createRadius($customer->id);
         }
+        $logData = [];
+        $changes = $customer->getChanges();
+        foreach ($changes as $key => $newValue) {
+            $logData[$key] = [
+                'to' => $newValue                   // New value
+            ];
+        }
+        activity()
+            ->causedBy(User::find(Auth::id()))
+            ->performedOn($customer)
+            ->withProperties(['changes' => $logData])  // Log the changes with from-to values
+            ->log('Customer Created: ' . $customer->ftth_id);
         return redirect()->route('customer.index')->with('message', 'Customer Created Successfully.');
     }
 
@@ -434,11 +450,9 @@ class CustomerController extends Controller
                 ->first();
             $sn = DB::table('sn_ports')
                 ->join('dn_ports', 'sn_ports.dn_id', '=', 'dn_ports.id')
-                ->select('sn_ports.*', 'dn_ports.name as dn_name')
+                ->select('sn_ports.*', 'dn_ports.name as dn_name', 'dn_ports.pop as pop')
                 ->get();
             $dn = DB::table('dn_ports')
-                ->select(DB::raw('name, count(port) as ports'))
-                ->groupBy(['name'])
                 ->get();
             $packages = Package::get();
             $projects = Project::get();
@@ -546,6 +560,8 @@ class CustomerController extends Controller
                     CustomerHistory::where('customer_id', '=', $request->input('id'))->update(['active' => 0]);
 
 
+
+
                     $new_history = new CustomerHistory();
                     $old_c = Customer::find($request->input('id'));
                     if ($request->start_date)
@@ -620,6 +636,10 @@ class CustomerController extends Controller
                     if (!empty($request->sn_id))
                         $customer->$value = $request->sn_id['id'];
                 }
+                if ($value == 'pop_id') {
+                    if (isset($request->pop_id['id']))
+                        $customer->$value = $request->pop_id['id'];
+                }
                 if ($value == 'bundle') {
                     if (!empty($request->bundles)) {
 
@@ -633,7 +653,23 @@ class CustomerController extends Controller
                     }
                 }
             }
-            $customer->update();
+            $original = $customer->getOriginal();  // Get the original values before update
+            $customer->update();                   // Perform the update
+            $changes = $customer->getChanges();    // Get the updated values after the update
+
+            $logData = [];
+            foreach ($changes as $key => $newValue) {
+                $logData[$key] = [
+                    'from' => $original[$key] ?? null,  // Original value
+                    'to' => $newValue                   // New value
+                ];
+            }
+            activity()
+                ->causedBy(User::find(Auth::id()))
+                ->performedOn($customer)
+                ->withProperties(['changes' => $logData])  // Log the changes with from-to values
+                ->log('Customer updated: ' . $customer->ftth_id);
+
             if (RadiusController::checkRadiusEnable()) {
                 RadiusController::updateRadius($customer->id);
             }

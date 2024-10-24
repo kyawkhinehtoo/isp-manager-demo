@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DnPorts extends Model
 {
-      /**
+    /**
      * The database table used by the model.
      *
      * @var string
@@ -32,6 +32,7 @@ class DnPorts extends Model
         'description',
         'location',
         'input_dbm',
+        'pop',
         'created_at',
         'updated_at'
     ];
@@ -41,9 +42,7 @@ class DnPorts extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be casted to native types.
@@ -51,12 +50,13 @@ class DnPorts extends Model
      * @var array
      */
     protected $casts = [
-        'name'=> 'string',
-        'port'=> 'integer',
+        'name' => 'string',
+        'port' => 'integer',
         'description' => 'string',
         'location' => 'string',
         'input_dbm' => 'string',
-        'created_at' => 'timestamp', 
+        'pop' => 'json',
+        'created_at' => 'timestamp',
         'updated_at' => 'timestamp'
     ];
 
@@ -66,12 +66,13 @@ class DnPorts extends Model
      * @var array
      */
     protected $dates = [
-       'created_at', 'updated_at'
+        'created_at',
+        'updated_at'
     ];
 
     /**
      * Indicates if the model should be timestamped.
      *
      * @var boolean
-    */
+     */
 }

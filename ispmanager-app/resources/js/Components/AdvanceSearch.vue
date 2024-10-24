@@ -6,10 +6,13 @@
         <div class="py-2">
           <label for="sh_general" class="block text-sm font-medium text-gray-700">General </label>
           <div class="mt-1 flex rounded-md shadow-sm">
-            <span class="z-10 leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
+            <span
+              class="z-10 leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
               <i class="fas fa-user"></i>
             </span>
-            <input type="text" v-model="sh_general" name="sh_general" id="sh_general" class="pl-10 py-2.5 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300" placeholder="Customer/Company Name etc." tabindex="1" />
+            <input type="text" v-model="sh_general" name="sh_general" id="sh_general"
+              class="pl-10 py-2.5 focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
+              placeholder="Customer/Company Name etc." tabindex="1" />
           </div>
         </div>
       </div>
@@ -32,12 +35,16 @@
         <div class="py-2">
           <label for="sh_package_speed" class="block text-sm font-medium text-gray-700">Package </label>
           <div class="mt-1 flex rounded-md shadow-sm">
-            <span class="z-10 leading-snug font-normal text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
+            <span
+              class="z-10 leading-snug font-normal text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
               <i class="fas fa-user"></i>
             </span>
-            <select id="sh_package_speed" v-model="sh_package_speed" name="sh_package" class="pl-10 py-2.5 block w-full px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" tabindex="2">
+            <select id="sh_package_speed" v-model="sh_package_speed" name="sh_package"
+              class="pl-10 py-2.5 block w-full px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              tabindex="2">
               <option value="0">-Choose Package-</option>
-              <option v-for="row in package_speed" v-bind:key="row.speed" :value="row.speed+'|'+row.type">{{ row.item_data }}</option>
+              <option v-for="row in package_speed" v-bind:key="row.speed" :value="row.speed + '|' + row.type">{{
+                row.item_data }}</option>
             </select>
           </div>
         </div>
@@ -46,10 +53,13 @@
         <div class="py-2">
           <label for="sh_township" class="block text-sm font-medium text-gray-700">Township </label>
           <div class="mt-1 flex rounded-md shadow-sm">
-            <span class="z-10 leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
+            <span
+              class="z-10 leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
               <i class="fas fa-user"></i>
             </span>
-            <select id="sh_township" v-model="sh_township" name="sh_township" class="pl-10 py-2.5 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" tabindex="3">
+            <select id="sh_township" v-model="sh_township" name="sh_township"
+              class="pl-10 py-2.5 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              tabindex="3">
               <option value="0">-Choose Township -</option>
               <option value="empty">-No Township -</option>
               <option v-for="row in townships" v-bind:key="row.id" :value="row.id">{{ row.name }}</option>
@@ -61,10 +71,13 @@
         <div class="py-2">
           <label for="sh_status" class="block text-sm font-medium text-gray-700">Customer Status </label>
           <div class="mt-1 flex rounded-md shadow-sm">
-            <span class="z-10 leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
+            <span
+              class="z-10 leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
               <i class="fas fa-user"></i>
             </span>
-            <select id="sh_status" v-model="sh_status" name="sh_status" class="pl-10 py-2.5 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" tabindex="7">
+            <select id="sh_status" v-model="sh_status" name="sh_status"
+              class="pl-10 py-2.5 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              tabindex="7">
               <option value="0">-Choose Status -</option>
               <option v-for="row in status" v-bind:key="row.id" :value="row.id">{{ row.name }}</option>
             </select>
@@ -77,7 +90,8 @@
         <div class="py-2">
           <label for="sh_package" class="block text-sm font-medium text-gray-700">Prefer Date </label>
           <div class="mt-1 flex rounded-md shadow-sm">
-            <litepie-datepicker placeholder="Please choose Prefer Installation  Date" :formatter="formatter" separator=" to " v-model="sh_prefer" tabindex="5"></litepie-datepicker>
+            <litepie-datepicker placeholder="Please choose Prefer Installation  Date" :formatter="formatter"
+              separator=" to " v-model="sh_prefer" tabindex="5"></litepie-datepicker>
           </div>
         </div>
       </div>
@@ -85,7 +99,8 @@
         <div class="py-2">
           <label for="sh_installation" class="block text-sm font-medium text-gray-700">Installation Date </label>
           <div class="mt-1 flex rounded-md shadow-sm">
-            <litepie-datepicker placeholder="Please choose Installation Date" :formatter="formatter" separator=" to " v-model="sh_installation" tabindex="6"></litepie-datepicker>
+            <litepie-datepicker placeholder="Please choose Installation Date" :formatter="formatter" separator=" to "
+              v-model="sh_installation" tabindex="6"></litepie-datepicker>
           </div>
         </div>
       </div>
@@ -93,7 +108,8 @@
         <div class="py-2">
           <label for="sh_dn" class="block text-sm font-medium text-gray-700">DN </label>
           <div class="mt-1 flex rounded-md shadow-sm">
-            <multiselect deselect-label="Selected already" :options="dn" track-by="name" label="name" v-model="sh_dn" :allow-empty="true" @select="DNSelect"></multiselect>
+            <multiselect deselect-label="Selected already" :options="dn" track-by="name" label="name" v-model="sh_dn"
+              :allow-empty="true" @select="DNSelect"></multiselect>
           </div>
         </div>
       </div>
@@ -101,7 +117,8 @@
         <div class="py-2">
           <label for="sh_sn" class="block text-sm font-medium text-gray-700">SN </label>
           <div class="mt-1 flex rounded-md shadow-sm" v-if="res_sn">
-            <multiselect deselect-label="Selected already" :options="res_sn" track-by="id" label="name" v-model="sh_sn" :allow-empty="true"></multiselect>
+            <multiselect deselect-label="Selected already" :options="res_sn" track-by="id" label="name" v-model="sh_sn"
+              :allow-empty="true"></multiselect>
           </div>
         </div>
       </div>
@@ -109,11 +126,17 @@
   </div>
   <div class="mb-2 py-2 px-2 md:px-2 bg-white shadow rounded-b-lg flex justify-between">
     <div class="flex">
-      <a @click="doSearch" class="cursor-pointer inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">Search <i class="ml-1 fa fa-search text-white" tabindex="9"></i></a>
-      <a @click="clearSearch" class="ml-2 cursor-pointer inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-400 active:bg-gray-500 focus:outline-none focus:border-gray-500 focus:ring focus:ring-gray-200 disabled:opacity-25 transition">Reset <i class="ml-1 fa fa-undo-alt text-white" tabindex="10"></i></a>
+      <a @click="doSearch"
+        class="cursor-pointer inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">Search
+        <i class="ml-1 fa fa-search text-white" tabindex="9"></i></a>
+      <a @click="clearSearch"
+        class="ml-2 cursor-pointer inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-400 active:bg-gray-500 focus:outline-none focus:border-gray-500 focus:ring focus:ring-gray-200 disabled:opacity-25 transition">Reset
+        <i class="ml-1 fa fa-undo-alt text-white" tabindex="10"></i></a>
     </div>
     <div class="flex">
-      <a @click="doExcel" class="cursor-pointer inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring focus:ring-green-300 disabled:opacity-25 transition">Export Excel <i class="ml-1 fa fa-download text-white" tabindex="11"></i></a>
+      <a @click="doExcel"
+        class="cursor-pointer inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring focus:ring-green-300 disabled:opacity-25 transition">Export
+        Excel <i class="ml-1 fa fa-download text-white" tabindex="11"></i></a>
     </div>
   </div>
   <!-- End of Advance Search -->
@@ -189,7 +212,7 @@ export default {
       if (sh_partner.value != 0) {
         myurl.project = sh_partner.value;
       }
-  
+
       if (sh_status.value != 0) {
         myurl.status = sh_status.value;
       }
@@ -208,21 +231,21 @@ export default {
       if (sh_prefer.value.from != "" && sh_prefer.value.to != "") {
         myurl.prefer = sh_prefer.value;
       }
-      axios.post("/exportExcel", myurl,{responseType: "blob"}).then((response) => {
+      axios.post("/exportExcel", myurl, { responseType: "blob" }).then((response) => {
         console.log(response);
         var a = document.createElement("a");
         document.body.appendChild(a);
         a.style = "display: none";
-       var blob = new Blob([response.data], {
-        type: response.headers["content-type"],
-      });
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = `customers_${new Date().getTime()}.xlsx`;
-      link.click();
+        var blob = new Blob([response.data], {
+          type: response.headers["content-type"],
+        });
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = `customers_${new Date().getTime()}.xlsx`;
+        link.click();
       });
     };
- 
+
     const doSearch = () => {
       let myurl = Object.create({});
 
@@ -238,7 +261,7 @@ export default {
       if (sh_partner.value != 0) {
         myurl.project = sh_partner.value;
       }
-  
+
       if (sh_status.value != 0) {
         myurl.status = sh_status.value;
       }
@@ -262,7 +285,7 @@ export default {
     };
 
     function DNSelect(dn) {
-      getSN(dn.name).then((d) => {
+      getSN(dn.id).then((d) => {
         console.log(d);
         if (d) {
           sh_sn.value = null;
@@ -273,8 +296,8 @@ export default {
         }
       });
     }
-    const getSN = async (dn_name) => {
-      let url = "/getDnId/" + dn_name;
+    const getSN = async (dn) => {
+      let url = "/getDnId/" + dn;
       try {
         const res = await fetch(url);
         const data = await res.json();
@@ -312,5 +335,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DBBackupController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Application;
@@ -50,6 +51,7 @@ Route::group(['middleware' => ['auth', 'role']], function () {
 	Route::resource('/status', StatusController::class);
 	Route::resource('/role', RoleController::class);
 	Route::resource('/voip', VoipController::class);
+	Route::resource('/activity-log', ActivityLogController::class);
 });
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/getpackage/{id}', 'PackageController@getBundle');
@@ -67,7 +69,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/editTask/{id}', 'IncidentController@editTask');
 	Route::post('/uploadData', 'FileController@upload')->name('upload');
 	Route::post('/getMenu', 'MenuController@getMenu');
-	Route::get('/getDnId/{name}', 'PortController@getIdByName');
+	Route::get('/getDnId/{id}', 'PortController@getSNByDN');
+	Route::get('/getDNByPOP/{id}', 'PortController@getDNByPOP');
 	Route::get('/dashboard', 'DashboardController@show')->name('dashboard');
 	Route::resource('/customer', CustomerController::class);
 	Route::post('/customer/search/', 'CustomerController@show');
@@ -83,6 +86,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 	Route::resource('/port', PortController::class);
+	Route::post('/port', 'PortController@index')->name('port.search');
+	Route::post('/port-store', 'PortController@store')->name('port.store');
 	Route::resource('/snport', SNPortController::class);
 	Route::get('/generateSN', 'SNPortController@generateSN');
 	Route::delete('/snport/group/{id}', 'SNPortController@deleteGroup');
@@ -217,6 +222,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('/test', TestController::class);
 	Route::post('/doTestPDF', 'TestController@makeSinglePDF');
 	Route::post('/delTestPDF', 'TestController@destroyPDF');
+
+	//DBBackup
+	Route::get('/dbbackup', [DBBackupController::class, 'index'])->name('dbbackup.index');
+	Route::post('/dbbackup', [DBBackupController::class, 'update'])->name('dbbackup.update');
+	Route::post('/dbbackup-store', [DBBackupController::class, 'backup'])->name('dbbackup.store');
 });
 
 Route::get('/s/{shortURLKey}', '\AshAllenDesign\ShortURL\Controllers\ShortURLController');

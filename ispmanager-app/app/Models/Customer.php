@@ -26,7 +26,47 @@ class Customer extends Model
      * @var array
      */
     protected $fillable = [
-        'ftth_id', 'name', 'nrc', 'phone_1', 'phone_2','address', 'location', 'order_date', 'installation_date', 'prefer_install_date', 'sale_channel', 'sale_remark', 'township_id', 'package_id', 'sale_person_id', 'status_id', 'subcom_id','sn_id','splitter_no','fiber_distance','installation_remark','fc_used','fc_damaged','onu_serial','onu_power','contract_term','foc','foc_period','advance_payment','advance_payment_day','extra_bandwidth','bundles', 'created_at', 'updated_at','deleted','pppoe_account','pppoe_password','currency'
+        'ftth_id',
+        'name',
+        'nrc',
+        'phone_1',
+        'phone_2',
+        'address',
+        'location',
+        'order_date',
+        'installation_date',
+        'prefer_install_date',
+        'sale_channel',
+        'sale_remark',
+        'township_id',
+        'package_id',
+        'sale_person_id',
+        'status_id',
+        'subcom_id',
+        'sn_id',
+        'dn_id',
+        'pop_id',
+        'splitter_no',
+        'fiber_distance',
+        'installation_remark',
+        'fc_used',
+        'fc_damaged',
+        'onu_serial',
+        'onu_power',
+        'contract_term',
+        'foc',
+        'foc_period',
+        'advance_payment',
+        'advance_payment_day',
+        'extra_bandwidth',
+        'bundles',
+        'created_at',
+        'updated_at',
+        'deleted',
+        'pppoe_account',
+        'pppoe_password',
+        'currency',
+        'email'
     ];
 
     /**
@@ -42,7 +82,19 @@ class Customer extends Model
      * @var array
      */
     protected $casts = [
-        'ftth_id' => 'string', 'name' => 'string', 'nrc' => 'string', 'phone_1' => 'string', 'phone_2' => 'string', 'address' => 'string', 'location' => 'string', 'order_date' => 'date', 'installation_date' => 'date', 'sale_channel' => 'string', 'sale_remark' => 'string',  'created_at' => 'timestamp', 'updated_at' => 'timestamp'
+        'ftth_id' => 'string',
+        'name' => 'string',
+        'nrc' => 'string',
+        'phone_1' => 'string',
+        'phone_2' => 'string',
+        'address' => 'string',
+        'location' => 'string',
+        'order_date' => 'date',
+        'installation_date' => 'date',
+        'sale_channel' => 'string',
+        'sale_remark' => 'string',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp'
     ];
 
     /**
@@ -51,7 +103,12 @@ class Customer extends Model
      * @var array
      */
     protected $dates = [
-        'dob', 'order_date', 'installation_date', 'prefer_install_date', 'created_at', 'updated_at'
+        'dob',
+        'order_date',
+        'installation_date',
+        'prefer_install_date',
+        'created_at',
+        'updated_at'
     ];
 
     /**
